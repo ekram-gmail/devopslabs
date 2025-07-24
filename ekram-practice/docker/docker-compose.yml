@@ -1,0 +1,47 @@
+#####Start multiple nginx containers and scale up/done using docker-compose
+services:
+  mynginx1:
+    image: nginx
+    #container_name: mynginx1
+    ports:
+      - ":80"
+    volumes:
+      - /mnt/g/temp/docker_vol1:/usr/share/nginx/html
+    #restart: always
+
+  mynginx2:
+    image: nginx
+    #container_name: mynginx2
+    ports:
+      - ":80"
+    volumes:
+      - /mnt/g/temp/docker_vol2:/usr/share/nginx/html
+
+  mynginx3:
+    image: nginx
+    #container_name: mynginx3
+    ports:
+      - ":80"
+    volumes:
+      - /mnt/g/temp/docker_vol3:/usr/share/nginx/html
+
+  mynginx4:
+    image: nginx
+    #container_name: mynginx4
+    ports:
+      - ":80"
+    volumes:
+      - /mnt/g/temp/docker_vol4:/usr/share/nginx/html
+
+  mynginx-lb:
+    image: nginx
+    container_name: nginx-load-balancer
+    ports:
+      - "8080:80"
+    volumes:
+      - /mnt/g/temp/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - mynginx1
+      - mynginx2
+      - mynginx3
+      - mynginx4
